@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Consultoria Hub — Mini CRM + Mural</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="app-header">
+      <div>
+        <h1>Consultoria Hub</h1>
+        <p>Mini CRM de alunos + Mural de Recados</p>
+      </div>
+      <button id="seedDataBtn" class="ghost">Popular com dados de exemplo</button>
+    </header>
+
+    <main class="layout">
+      <section class="panel dashboard">
+        <h2>Visão Geral</h2>
+        <div class="stats" id="stats"></div>
+      </section>
+
+      <section class="panel crm">
+        <div class="panel-header">
+          <h2>Mini CRM de Alunos</h2>
+          <div class="actions">
+            <input id="studentSearch" type="search" placeholder="Buscar por nome, email, curso, tag..." />
+            <select id="statusFilter">
+              <option value="all">Todos os status</option>
+              <option value="ativo">Ativo</option>
+              <option value="atenção">Atenção</option>
+              <option value="pausado">Pausado</option>
+              <option value="concluído">Concluído</option>
+            </select>
+          </div>
+        </div>
+
+        <form id="studentForm" class="form-grid">
+          <input name="nome" placeholder="Nome do aluno" required />
+          <input name="email" type="email" placeholder="E-mail" required />
+          <input name="telefone" placeholder="Telefone / WhatsApp" required />
+          <input name="curso" placeholder="Curso / Mentoria" required />
+          <select name="status" required>
+            <option value="ativo">Ativo</option>
+            <option value="atenção">Atenção</option>
+            <option value="pausado">Pausado</option>
+            <option value="concluído">Concluído</option>
+          </select>
+          <input name="progresso" type="number" min="0" max="100" placeholder="Progresso (%)" required />
+          <input name="tags" placeholder="Tags (separadas por vírgula)" />
+          <textarea name="observacoes" placeholder="Observações, próximo contato, pendências..."></textarea>
+          <button type="submit">Salvar aluno</button>
+        </form>
+
+        <div id="studentList" class="list"></div>
+      </section>
+
+      <section class="panel mural">
+        <h2>Mural de Recados</h2>
+        <form id="noticeForm" class="form-grid">
+          <input name="titulo" placeholder="Título do recado" required />
+          <select name="prioridade" required>
+            <option value="normal">Normal</option>
+            <option value="alta">Alta</option>
+            <option value="urgente">Urgente</option>
+          </select>
+          <input name="publico" placeholder="Público (ex: turma A, todos, iniciantes)" required />
+          <input name="expiraEm" type="date" />
+          <label class="checkbox-wrap">
+            <input name="fixado" type="checkbox" />
+            Fixar no topo
+          </label>
+          <textarea name="mensagem" placeholder="Mensagem do recado" required></textarea>
+          <button type="submit">Publicar recado</button>
+        </form>
+
+        <div id="noticeList" class="list"></div>
+      </section>
+    </main>
+
+    <template id="studentTemplate">
+      <article class="card student-card">
+        <div class="card-top">
+          <div>
+            <h3 data-field="nome"></h3>
+            <p data-field="email"></p>
+          </div>
+          <span class="badge" data-field="status"></span>
+        </div>
+        <p><strong>Curso:</strong> <span data-field="curso"></span></p>
+        <p><strong>Telefone:</strong> <span data-field="telefone"></span></p>
+        <p><strong>Último contato:</strong> <span data-field="ultimoContato"></span></p>
+        <div class="progress-wrap">
+          <small>Progresso: <span data-field="progresso"></span>%</small>
+          <div class="progress"><div class="bar" data-field="progressBar"></div></div>
+        </div>
+        <p><strong>Tags:</strong> <span data-field="tags"></span></p>
+        <p class="notes" data-field="observacoes"></p>
+        <div class="card-actions">
+          <button data-action="touch">Registrar contato</button>
+          <button data-action="edit" class="ghost">Editar</button>
+          <button data-action="delete" class="danger">Excluir</button>
+        </div>
+      </article>
+    </template>
+
+    <template id="noticeTemplate">
+      <article class="card notice-card">
+        <div class="card-top">
+          <h3 data-field="titulo"></h3>
+          <div class="notice-meta">
+            <span class="badge" data-field="prioridade"></span>
+            <span class="pin" data-field="fixado"></span>
+          </div>
+        </div>
+        <p data-field="mensagem"></p>
+        <p><strong>Público:</strong> <span data-field="publico"></span></p>
+        <p><strong>Publicado em:</strong> <span data-field="criadoEm"></span></p>
+        <p><strong>Expira em:</strong> <span data-field="expiraEm"></span></p>
+        <div class="card-actions">
+          <button data-action="delete" class="danger">Excluir recado</button>
+        </div>
+      </article>
+    </template>
+
+    <script src="app.js"></script>
+  </body>
+</html>
