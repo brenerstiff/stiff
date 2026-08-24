@@ -169,7 +169,7 @@ export default function Home() {
                 <button
                   onClick={() => remove(task.id)}
                   aria-label="Delete task"
-                  className="text-black/30 opacity-0 transition hover:text-red-500 group-hover:opacity-100 dark:text-white/30"
+                  className="text-black/30 opacity-60 transition hover:text-red-500 focus-visible:opacity-100 group-hover:opacity-100 dark:text-white/30"
                 >
                   <svg viewBox="0 0 20 20" className="h-4 w-4" fill="currentColor">
                     <path d="M8 2a1 1 0 00-1 1v1H4a1 1 0 000 2h12a1 1 0 100-2h-3V3a1 1 0 00-1-1H8zM5 8h10l-.8 9a1 1 0 01-1 .9H6.8a1 1 0 01-1-.9L5 8z" />
