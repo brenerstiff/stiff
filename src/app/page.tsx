@@ -16,7 +16,10 @@ export default function Home() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const remaining = useMemo(() => tasks.filter((t) => !t.done).length, [tasks]);
+  const remaining = useMemo(
+    () => tasks.filter((t) => !t.done).length,
+    [tasks],
+  );
 
   async function refresh() {
     const res = await fetch("/api/tasks", { cache: "no-store" });
@@ -132,8 +135,13 @@ export default function Home() {
         ) : (
           <ul className="flex flex-col gap-2">
             {tasks.map((task) => (
+              // Key includes the list length so surviving rows remount on a
+              // structural change (add/delete). This works around a Chromium
+              // text-decoration paint-invalidation bug where a reused node's
+              // strikethrough is not repainted after a preceding sibling is
+              // removed and the node is relocated.
               <li
-                key={task.id}
+                key={`${tasks.length}:${task.id}`}
                 className="group flex items-center gap-3 rounded-xl border border-black/5 bg-black/[0.02] px-4 py-3 transition hover:border-black/10 dark:border-white/5 dark:bg-white/[0.03] dark:hover:border-white/10"
               >
                 <button
